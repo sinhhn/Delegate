@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CanRecieve {
 
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var textfield: UITextField!
@@ -23,6 +23,17 @@ class ViewController: UIViewController {
     
     @IBAction func forwardDataPressed(_ sender: Any) {
         performSegue(withIdentifier: "forwardData", sender: self)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "forwardData" {
+            let secondVC = segue.destination as! SecondViewController
+            secondVC.data = textfield.text!
+            secondVC.delegate = self
+        }
+    }
+    
+    func dataRecieved(data: String) {
+        label.text = data
     }
 }
 
